@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="LasVegasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Apuesta">
+          <Key>
+            <PropertyRef Name="IdApuesta" />
+          </Key>
+          <Property Name="IdApuesta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NumeroApuesta" Type="int" Nullable="false" />
+          <Property Name="ColorApuesta" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="ValorApuesta" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="IdUsuarioApuesta" Type="int" Nullable="false" />
+          <Property Name="IdRuleta" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ruleta">
+          <Key>
+            <PropertyRef Name="IdRuleta" />
+          </Key>
+          <Property Name="IdRuleta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+          <Property Name="Apertura" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Cierre" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Usuarios">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreUsuario" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Contrasena" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="LimiteCredito" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Apuesta__IdRulet__628FA481">
+          <End Role="Ruleta" Type="Self.Ruleta" Multiplicity="1" />
+          <End Role="Apuesta" Type="Self.Apuesta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ruleta">
+              <PropertyRef Name="IdRuleta" />
+            </Principal>
+            <Dependent Role="Apuesta">
+              <PropertyRef Name="IdRuleta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Apuesta__IdUsuar__619B8048">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
+          <End Role="Apuesta" Type="Self.Apuesta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Apuesta">
+              <PropertyRef Name="IdUsuarioApuesta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LasVegasModelStoreContainer">
+          <EntitySet Name="Apuesta" EntityType="Self.Apuesta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ruleta" EntityType="Self.Ruleta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Apuesta__IdRulet__628FA481" Association="Self.FK__Apuesta__IdRulet__628FA481">
+            <End Role="Ruleta" EntitySet="Ruleta" />
+            <End Role="Apuesta" EntitySet="Apuesta" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Apuesta__IdUsuar__619B8048" Association="Self.FK__Apuesta__IdUsuar__619B8048">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Apuesta" EntitySet="Apuesta" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LasVegasModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Apuesta">
+          <Key>
+            <PropertyRef Name="IdApuesta" />
+          </Key>
+          <Property Name="IdApuesta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NumeroApuesta" Type="Int32" Nullable="false" />
+          <Property Name="ColorApuesta" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ValorApuesta" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="IdUsuarioApuesta" Type="Int32" Nullable="false" />
+          <Property Name="IdRuleta" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Ruleta" Relationship="Self.FK__Apuesta__IdRulet__4E88ABD4" FromRole="Apuesta" ToRole="Ruleta" />
+          <NavigationProperty Name="Usuarios" Relationship="Self.FK__Apuesta__IdUsuar__4D94879B" FromRole="Apuesta" ToRole="Usuarios" />
+        </EntityType>
+        <EntityType Name="Ruleta">
+          <Key>
+            <PropertyRef Name="IdRuleta" />
+          </Key>
+          <Property Name="IdRuleta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <Property Name="Apertura" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Cierre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Apuesta" Relationship="Self.FK__Apuesta__IdRulet__4E88ABD4" FromRole="Ruleta" ToRole="Apuesta" />
+        </EntityType>
+        <EntityType Name="Usuarios">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreUsuario" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Contrasena" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LimiteCredito" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <NavigationProperty Name="Apuesta" Relationship="Self.FK__Apuesta__IdUsuar__4D94879B" FromRole="Usuarios" ToRole="Apuesta" />
+        </EntityType>
+        <Association Name="FK__Apuesta__IdRulet__4E88ABD4">
+          <End Role="Ruleta" Type="Self.Ruleta" Multiplicity="1" />
+          <End Role="Apuesta" Type="Self.Apuesta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ruleta">
+              <PropertyRef Name="IdRuleta" />
+            </Principal>
+            <Dependent Role="Apuesta">
+              <PropertyRef Name="IdRuleta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Apuesta__IdUsuar__4D94879B">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
+          <End Role="Apuesta" Type="Self.Apuesta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Apuesta">
+              <PropertyRef Name="IdUsuarioApuesta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LasVegasEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Apuesta" EntityType="Self.Apuesta" />
+          <EntitySet Name="Ruleta" EntityType="Self.Ruleta" />
+          <EntitySet Name="Usuarios" EntityType="Self.Usuarios" />
+          <AssociationSet Name="FK__Apuesta__IdRulet__4E88ABD4" Association="Self.FK__Apuesta__IdRulet__4E88ABD4">
+            <End Role="Ruleta" EntitySet="Ruleta" />
+            <End Role="Apuesta" EntitySet="Apuesta" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Apuesta__IdUsuar__4D94879B" Association="Self.FK__Apuesta__IdUsuar__4D94879B">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Apuesta" EntitySet="Apuesta" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LasVegasModelStoreContainer" CdmEntityContainer="LasVegasEntities">
+          <EntitySetMapping Name="Apuesta">
+            <EntityTypeMapping TypeName="LasVegasModel.Apuesta">
+              <MappingFragment StoreEntitySet="Apuesta">
+                <ScalarProperty Name="IdApuesta" ColumnName="IdApuesta" />
+                <ScalarProperty Name="NumeroApuesta" ColumnName="NumeroApuesta" />
+                <ScalarProperty Name="ColorApuesta" ColumnName="ColorApuesta" />
+                <ScalarProperty Name="ValorApuesta" ColumnName="ValorApuesta" />
+                <ScalarProperty Name="IdUsuarioApuesta" ColumnName="IdUsuarioApuesta" />
+                <ScalarProperty Name="IdRuleta" ColumnName="IdRuleta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ruleta">
+            <EntityTypeMapping TypeName="LasVegasModel.Ruleta">
+              <MappingFragment StoreEntitySet="Ruleta">
+                <ScalarProperty Name="IdRuleta" ColumnName="IdRuleta" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Apertura" ColumnName="Apertura" />
+                <ScalarProperty Name="Cierre" ColumnName="Cierre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuarios">
+            <EntityTypeMapping TypeName="LasVegasModel.Usuarios">
+              <MappingFragment StoreEntitySet="Usuarios">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="NombreUsuario" ColumnName="NombreUsuario" />
+                <ScalarProperty Name="Contrasena" ColumnName="Contrasena" />
+                <ScalarProperty Name="LimiteCredito" ColumnName="LimiteCredito" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
